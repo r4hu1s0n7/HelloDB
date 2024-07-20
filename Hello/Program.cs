@@ -26,6 +26,8 @@
                     case PrepareStatementResult.QUERY_ERROR:
                         continue;
                 }
+
+                QueryExecution.Execute(queryStatement);
             }
         }
     }

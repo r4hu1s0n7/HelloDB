@@ -18,5 +18,6 @@ public enum QueryType{
 }
 
 public class QueryStatement{
-    public QueryType queryType;
+    public QueryType queryType; 
 }
+
