@@ -18,11 +18,12 @@
                         continue;
                 }
             }else{ // query statement
-                QueryStatementResult result = QueryStatement.ProcessQueryStatement(input);
+                QueryStatement queryStatement = new QueryStatement();
+                PrepareStatementResult result = PrepareStatement.PrepareQueryStatement(input, out queryStatement);
                 switch(result){
-                    case QueryStatementResult.SUCCESS:
-                        continue;
-                    case QueryStatementResult.QUERY_ERROR:
+                    case PrepareStatementResult.SUCCESS:
+                        break;
+                    case PrepareStatementResult.QUERY_ERROR:
                         continue;
                 }
             }
