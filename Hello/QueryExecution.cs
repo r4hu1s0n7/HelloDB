@@ -1,14 +1,17 @@
 public class QueryExecution{
 
-    public static void Execute(QueryStatement queryStatement){
+    public static ExecuteResult Execute(QueryStatement queryStatement, string input ){
         switch(queryStatement.queryType){
 
             case(QueryType.INSERT):
-                Console.WriteLine("Insert Statement");
-                break;
+                Row record = Row.SerializeRow(input);
+                return Table.Insert(record);
+                
             case(QueryType.SELECT):
-                Console.WriteLine("Select Statement");
-                break;
+                return Table.Select();
+            default:
+                Console.WriteLine("No matching Query");
+                return ExecuteResult.EXECUTE_ERROR;
         }
     }
 

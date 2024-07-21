@@ -19,15 +19,23 @@
                 }
             }else{ // query statement
                 QueryStatement queryStatement = new QueryStatement();
-                PrepareStatementResult result = PrepareStatement.PrepareQueryStatement(input, out queryStatement);
-                switch(result){
+                PrepareStatementResult prepareStatement = PrepareStatement.PrepareQueryStatement(input, out queryStatement);
+                switch(prepareStatement){
                     case PrepareStatementResult.SUCCESS:
                         break;
                     case PrepareStatementResult.QUERY_ERROR:
                         continue;
                 }
 
-                QueryExecution.Execute(queryStatement);
+                ExecuteResult executeResult = QueryExecution.Execute(queryStatement, input);
+                switch(executeResult){
+                    case ExecuteResult.EXECUTE_ERROR:
+                        Console.WriteLine("Query Error");
+                        break;
+                    case ExecuteResult.EXECUTE_SUCCESS :
+                        Console.WriteLine("Executed");
+                        break;
+                }
             }
         }
     }

@@ -1,3 +1,5 @@
+using System.Reflection.Metadata;
+
 enum MetaCommandResult {
     SUCCESS,
     COMMAND_ERROR,
@@ -17,7 +19,19 @@ public enum QueryType{
     DELETE
 }
 
+public enum ExecuteResult{
+    EXECUTE_SUCCESS,
+    EXECUTE_ERROR,
+    TABLE_FULL
+}
+
 public class QueryStatement{
     public QueryType queryType; 
+    public Row row; // insert only
 }
+
+
+
+
+
 
