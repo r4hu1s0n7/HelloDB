@@ -9,6 +9,8 @@ enum MetaCommandResult {
 enum PrepareStatementResult{
     SUCCESS,
     QUERY_ERROR,
+    SYNTAX_ERROR,
+    NEGATIVE_INDEX,
     RESULT
 }
 

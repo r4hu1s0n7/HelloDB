@@ -23,14 +23,19 @@
                 switch(prepareStatement){
                     case PrepareStatementResult.SUCCESS:
                         break;
-                    case PrepareStatementResult.QUERY_ERROR:
+                    case PrepareStatementResult.SYNTAX_ERROR:
+                        Console.WriteLine("Parameters Mismatch");
+                        continue;
+                        
+                    case PrepareStatementResult.NEGATIVE_INDEX:
+                        Console.WriteLine("Negative Index Id");
                         continue;
                 }
 
                 ExecuteResult executeResult = QueryExecution.Execute(queryStatement, input);
                 switch(executeResult){
                     case ExecuteResult.EXECUTE_ERROR:
-                        Console.WriteLine("Query Error");
+                        Console.WriteLine("Command could not be executed");
                         break;
                     case ExecuteResult.EXECUTE_SUCCESS :
                         Console.WriteLine("Executed");

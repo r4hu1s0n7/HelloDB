@@ -6,10 +6,12 @@ class PrepareStatement{
             queryStatement.queryType = QueryType.INSERT;
             string[] inputValues = input.Split(' ');
 
-            if(inputValues.Count() != 4){
-                return PrepareStatementResult.QUERY_ERROR;
+            if(inputValues.Count() != 4){ // validating default constraint
+                return PrepareStatementResult.SYNTAX_ERROR;
             }
-            return PrepareStatementResult.SUCCESS;
+
+            return ValidateInsertQueryConstraints(input);
+
         }else if(input.Substring(0,6).ToLower() == "select"){
             queryStatement.queryType = QueryType.SELECT;
             return PrepareStatementResult.SUCCESS;
@@ -17,4 +19,13 @@ class PrepareStatement{
         return PrepareStatementResult.QUERY_ERROR;
         
     }
+
+    public static PrepareStatementResult ValidateInsertQueryConstraints(string input){
+        string[] param = input.Split(' ');
+
+        if(Convert.ToInt32(param[1]) <0) return PrepareStatementResult.NEGATIVE_INDEX;
+        return PrepareStatementResult.SUCCESS;
+    }
+
+
 }
