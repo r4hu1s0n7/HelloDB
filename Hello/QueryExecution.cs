@@ -4,8 +4,9 @@ public class QueryExecution{
         switch(queryStatement.queryType){
 
             case(QueryType.INSERT):
-                Row record = Row.SerializeRow(input);
-                return Table.Insert(record);
+                string recordValue = input.Remove(0,"insert".Length);
+                Row record = Row.DeserializeRow(recordValue);
+                return Table.Insert(record);    
                 
             case(QueryType.SELECT):
                 return Table.Select();

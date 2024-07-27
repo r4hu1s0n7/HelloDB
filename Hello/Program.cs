@@ -26,7 +26,9 @@
                     case PrepareStatementResult.SYNTAX_ERROR:
                         Console.WriteLine("Parameters Mismatch");
                         continue;
-                        
+                    case PrepareStatementResult.QUERY_UKNOWN:
+                        Console.WriteLine("Unrecognised Command");
+                        continue;
                     case PrepareStatementResult.NEGATIVE_INDEX:
                         Console.WriteLine("Negative Index Id");
                         continue;

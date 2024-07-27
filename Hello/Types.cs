@@ -11,6 +11,7 @@ enum PrepareStatementResult{
     QUERY_ERROR,
     SYNTAX_ERROR,
     NEGATIVE_INDEX,
+    QUERY_UKNOWN,
     RESULT
 }
 

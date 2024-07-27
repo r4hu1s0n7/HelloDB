@@ -4,16 +4,16 @@ public class Row{
     string email;  
 
 
-    public static Row SerializeRow(string input){
-        string[] values = input.Split(" ");
+    public static Row DeserializeRow(string input){
+        string[] values = input.Trim().Split(" ");
         Row row = new Row();
-        row.id = Convert.ToInt32(values[1]);
-        row.name = values[2];
-        row.email = values[3];
+        row.id = Convert.ToInt32(values[0]);
+        row.name = values[1].Trim();
+        row.email = values[2].Trim();
         return row;
 
     }
-    public static string DeserializeRow(Row row){
+    public static string SerializeRow(Row row){
         return $"{row.id}, {row.name}, {row.email}"; 
     }
 }
