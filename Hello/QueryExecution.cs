@@ -6,7 +6,7 @@ public class QueryExecution{
             case(QueryType.INSERT):
                 string recordValue = input.Remove(0,"insert".Length);
                 Row insertRecord = Row.DeserializeRow(recordValue);
-                return Table.Insert(record);    
+                return Table.Insert(insertRecord);    
                 
             case(QueryType.SELECT_ALL):
                 return Table.SelectAll();

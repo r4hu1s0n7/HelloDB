@@ -51,16 +51,8 @@ public class Table{
         if(Rows[0] != null) {Console.WriteLine("Exit current Database file."); return; }
         if(input.Split(" ").Count() != 2){Console.WriteLine("Database Filename missing");return;}
         currentFilename = input.Split(" ")[1];
-        Rows = Pages.LoadPage(currentFilename);
-        // reseting current row pointer
-        for(int i  = 0; i < MAX_PAGES; i++){
-            for(int j = 0; j < PAGE_SIZE; j++){
-                if(Rows[currentPage] == null || Rows[currentPage][currentRow] == null)break;
-                currentRow++;
-                if(currentRow == 5){ currentRow = 0; currentPage++; }
-
-            }
-        }
+        bPlus = Pages.LoadPage(currentFilename); // loading tree
+    
     }
 
     internal static void Close(){
@@ -70,7 +62,7 @@ public class Table{
             if(output.ToLower().Trim() == "no") return;
             currentFilename = output.Trim();
         }
-        Pages.SaveFile(Rows,currentFilename);
+        Pages.SaveFile(bPlus,currentFilename);
     }
 
     
