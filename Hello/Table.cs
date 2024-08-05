@@ -4,7 +4,7 @@ public class Table{
     public const int MAX_PAGES = 5;
     public const int PAGE_SIZE = 5;
     public const int MAX_ROWS = MAX_PAGES * PAGE_SIZE;
-    public const int ROWS_PER_TABLE = MAX_PAGES / PAGE_SIZE;
+    
     private static Row[][] Rows = new Row[MAX_PAGES][ ];
     private static int currentPage;
     private static int currentRow;
@@ -16,7 +16,7 @@ public class Table{
             Console.WriteLine("Memory Full");
             return ExecuteResult.TABLE_FULL;
         }
-        if(currentRow > ROWS_PER_TABLE){
+        if(currentRow > PAGE_SIZE){
             currentPage += 1;
             currentRow = 0;
         }
@@ -51,7 +51,7 @@ public class Table{
         Rows = Pages.LoadPage(currentFilename);
         // reseting current row pointer
         for(int i  = 0; i < MAX_PAGES; i++){
-            for(int j = 0; j < ROWS_PER_TABLE; j++){
+            for(int j = 0; j < PAGE_SIZE; j++){
                 if(Rows[currentPage] == null || Rows[currentPage][currentRow] == null)break;
                 currentRow++;
                 if(currentRow == 5){ currentRow = 0; currentPage++; }

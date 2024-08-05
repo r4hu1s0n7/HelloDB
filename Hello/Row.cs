@@ -1,5 +1,5 @@
 public class Row{
-    int id;
+    public int id {  get; private set; }
     string name;
     string email;  
 
