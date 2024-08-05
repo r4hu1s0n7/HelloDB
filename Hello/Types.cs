@@ -16,7 +16,8 @@ enum PrepareStatementResult{
 }
 
 public enum QueryType{
-    SELECT,
+    SELECT_ALL,
+    SELECT_RECORDS,
     INSERT,
     UPDATE,
     DELETE
@@ -25,7 +26,8 @@ public enum QueryType{
 public enum ExecuteResult{
     EXECUTE_SUCCESS,
     EXECUTE_ERROR,
-    TABLE_FULL
+    TABLE_FULL,
+    RECORD_NOT_FOUND
 }
 
 public class QueryStatement{

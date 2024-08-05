@@ -38,12 +38,115 @@ class Node{
         }
     }
 
+    public Node Copy(){
+        Node copynode = new Node(this.IsLeaf);
+        copynode.Keys = new List<int>(Keys);
+        copynode.Children = new List<Node>(Children);
+        copynode.ValuePairs = new Dictionary<int, Row>(ValuePairs);
+        return copynode;
+    }
+
 }
 
 
 class BPlusTree{
     Node Root;
-    public static int Depth;
+    public static int Depth = 3;
+
+
+    public bool Insert(Row row){
+        int key = row.id;
+        if (Root == null)
+        {
+            Root = new Node(true);
+            Root.Keys.Add(key);
+            Root.ValuePairs[key] = row;
+            return true;
+        }
+
+        Node leafNode = GetLeafNode(key);
+
+        if(leafNode.Keys.Contains(key)) return false;
+        leafNode.InsertAtLeaf(row);
+
+        if(leafNode.Keys.Count > Depth){
+            Node newLeafNode = SplitLeafNode(leafNode);
+             InsertInParent(leafNode, newLeafNode.Keys[0], newLeafNode);
+        }
+        return true;
+    }
+
+
+    public bool Update(Row newRow){
+        int key = newRow.id;
+        if(Root == null){
+            return false;
+        } 
+
+        Node leafNode = GetLeafNode(key);
+        if(leafNode.Keys.Contains(key)){
+            leafNode.ValuePairs[key] = newRow;
+            return true;
+        }
+        return false;
+    }
+
+    public  bool Delete(int key){
+        if(Root == null){
+            return false;
+        } 
+
+        Node leafNode = GetLeafNode(key);
+        if(leafNode.Keys.Contains(key)){
+            leafNode.Keys.Remove(key);
+            leafNode.ValuePairs.Remove(key);
+            return true;
+        }
+        return false;
+    }
+
+    public List<Row> Select(){
+        List<Row> allRows = new List<Row>();
+        if(Root == null){
+            return allRows;
+        }
+
+        Node LeftMostNode = Root;
+        while(!LeftMostNode.IsLeaf){
+            LeftMostNode = LeftMostNode.Children[0];
+        }
+
+        while(LeftMostNode != null){
+            allRows.AddRange(LeftMostNode.ValuePairs.Values);
+            LeftMostNode = LeftMostNode.Next;
+        }
+
+        return allRows;
+
+    }
+    public List<Row> Select(int[] ids){
+        HashSet<int> idSet = new HashSet<int>(ids);
+        List<Row> selectedRows = new List<Row>();
+        if(Root == null){
+            return selectedRows;
+        }
+
+        Node LeftMostNode = Root;
+        while(!LeftMostNode.IsLeaf){
+            LeftMostNode = LeftMostNode.Children[0];
+        }
+
+        while(LeftMostNode != null){
+            foreach(var row in LeftMostNode.ValuePairs){
+                if(idSet.Contains(row.Key)){
+                    selectedRows.Add(row.Value);
+                }
+            }
+            LeftMostNode = LeftMostNode.Next;
+        }
+        return selectedRows;
+    }
+
 
 
     private Node GetLeafNode(int key)
@@ -61,28 +164,9 @@ class BPlusTree{
         return currentNode;
     }
 
-     bool Insert(Row row){
-        int key = row.id;
-        if (Root == null)
-        {
-            Root = new Node(true);
-            Root.Keys.Add(key);
-            Root.ValuePairs[key] = row;
-            return true;
-        }
-
-        Node leafNode = GetLeafNode(key);
-        leafNode.InsertAtLeaf(row);
-
-        if(leafNode.Keys.Count > Depth){
-            Node newLeafNode = SplitLeafNode(leafNode);
-        }
-        return true;
-    }
-
     private Node SplitLeafNode(Node leafNode)
     {
-        Node newLeafNode = leafNode;
+        Node newLeafNode = leafNode.Copy();
         int mid = (leafNode.Keys.Count +1) / 2;
 
         newLeafNode.Keys = leafNode.Keys.GetRange(mid, leafNode.Keys.Count - mid);
@@ -103,7 +187,7 @@ class BPlusTree{
 
     private Node SplitInternalNode(Node node)
     {
-        Node newNode = new Node(false);
+        Node newNode = node.Copy();
         int mid = Depth / 2;
 
         newNode.Keys = node.Keys.GetRange(mid + 1, node.Keys.Count - mid - 1);
@@ -151,55 +235,7 @@ class BPlusTree{
     }
 
 
-    bool Delete(int key){
-        if(Root == null){
-            return false;
-        } 
 
-        Node leafNode = GetLeafNode(key);
-        if(leafNode.Keys.Contains(key)){
-            leafNode.Keys.Remove(key);
-            leafNode.ValuePairs.Remove(key);
-            return true;
-        }
-        return false;
-    }
-
-     bool Update(Row newRow){
-        int key = newRow.id;
-        if(Root == null){
-            return false;
-        } 
-
-        Node leafNode = GetLeafNode(key);
-        if(leafNode.Keys.Contains(key)){
-            leafNode.ValuePairs[key] = newRow;
-            return true;
-        }
-        return false;
-    }
-    List<Row> SelectAll(){
-        List<Row> allRows = new List<Row>();
-        if(Root == null){
-            return allRows;
-        }
-
-        Node LeftMostNode = Root;
-        while(!LeftMostNode.IsLeaf){
-            LeftMostNode = LeftMostNode.Children[0];
-        }
-
-        while(LeftMostNode != null){
-            allRows.AddRange(LeftMostNode.ValuePairs.Values);
-        }
-
-        return allRows;
-
-    }
-
-    //  Row[] Select(int[] ids){
-
-    // }
 
     private Node GetRoot(){
         if(Root == null){
