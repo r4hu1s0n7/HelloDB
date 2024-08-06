@@ -5,17 +5,26 @@ class MetaCommand{
         switch(command){
             case ".exit":
                 Table.Close();
-                exit(0);
+                Exit(0);
                 return MetaCommandResult.SUCCESS;
             case ".db":
                 Table.Open(input);
                 return MetaCommandResult.SUCCESS;
+            case ".listdb":
+                PrintDBList();
+                return MetaCommandResult.SUCCESS;
             default :               
-                return MetaCommandResult.COMMAND_ERROR;
+                return MetaCommandResult.COMMAND_NOT_FOUND;
         }
     }
 
-    static void exit(int statusCode){
+    static void Exit(int statusCode){
         System.Environment.Exit(statusCode);
+    }
+
+    static void PrintDBList(){
+        List<(string,string)> dbinfo = Utils.GetAllDatabasesList();
+        foreach(var db in dbinfo){
+            Console.WriteLine($"{db.Item1,-20} {db.Item2,10}");        }
     }
 }

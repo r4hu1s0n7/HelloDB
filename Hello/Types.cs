@@ -2,7 +2,7 @@ using System.Reflection.Metadata;
 
 enum MetaCommandResult {
     SUCCESS,
-    COMMAND_ERROR,
+    COMMAND_NOT_FOUND,
     RESULT
 }
 

@@ -13,7 +13,7 @@
                 switch(result){
                     case MetaCommandResult.SUCCESS:
                         continue;
-                    case MetaCommandResult.COMMAND_ERROR:
+                    case MetaCommandResult.COMMAND_NOT_FOUND:
                         Console.WriteLine("Incorrect or Unrecognised Command");
                         continue;
                 }
