@@ -38,13 +38,14 @@ public class Table{
     public static ExecuteResult Update(Row updateRecord)
     {
         bool status = bPlus.Update(updateRecord);
-        return status ? ExecuteResult.EXECUTE_SUCCESS : ExecuteResult.EXECUTE_ERROR;    
+        return status ? ExecuteResult.EXECUTE_SUCCESS : ExecuteResult.RECORD_NOT_FOUND;    
     }
 
     public static ExecuteResult Delete(int key)
     {
         bool status = bPlus.Delete(key);
-        return status ? ExecuteResult.EXECUTE_SUCCESS : ExecuteResult.RECORD_NOT_FOUND;     }
+        return status ? ExecuteResult.EXECUTE_SUCCESS : ExecuteResult.RECORD_NOT_FOUND;
+    }
 
     internal static void Open(string input)
     {

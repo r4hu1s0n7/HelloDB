@@ -32,8 +32,6 @@ class PrepareStatement{
             queryStatement.queryType = QueryType.DELETE;
             return ValidateDeleteQueryConstraints(input);
         }
-
-
         return PrepareStatementResult.QUERY_UKNOWN;
         
     }
@@ -47,7 +45,7 @@ class PrepareStatement{
 
     public static PrepareStatementResult ValidateDeleteQueryConstraints(string input){
         string[] param = input.Split(' ');
-        if(param.Count() != 2) return PrepareStatementResult.QUERY_ERROR;
+        if(param.Count() != 2) return PrepareStatementResult.SYNTAX_ERROR;
         if(Convert.ToInt32(param[1]) <0) return PrepareStatementResult.NEGATIVE_INDEX;
         return PrepareStatementResult.SUCCESS;
     }
