@@ -24,7 +24,14 @@ class MetaCommand{
 
     static void PrintDBList(){
         List<(string,string)> dbinfo = Utils.GetAllDatabasesList();
+
+        if(dbinfo.Count == 0){
+            Console.WriteLine("No database file found");
+            return;
+        }
+
         foreach(var db in dbinfo){
-            Console.WriteLine($"{db.Item1,-20} {db.Item2,10}");        }
+            Console.WriteLine($"{db.Item1,-20} {db.Item2,10}");        
+        }
     }
 }
