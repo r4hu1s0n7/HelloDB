@@ -42,6 +42,9 @@
                     case ExecuteResult.RECORD_NOT_FOUND:
                         Console.WriteLine("No records found");
                         break;
+                    case ExecuteResult.RECORD_EXIST:
+                        Console.WriteLine("Duplicate record id");
+                        break;
                     case ExecuteResult.EXECUTE_SUCCESS :
                         Console.WriteLine("Executed");
                         break;

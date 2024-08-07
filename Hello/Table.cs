@@ -18,19 +18,23 @@ public class Table{
 
     public static ExecuteResult Insert(Row row){
         bool status = bPlus.Insert(row);
-        return status ? ExecuteResult.EXECUTE_SUCCESS : ExecuteResult.EXECUTE_ERROR;
+        return status ? ExecuteResult.EXECUTE_SUCCESS : ExecuteResult.RECORD_EXIST;
     }
 
     public static ExecuteResult SelectAll(){
+        Console.WriteLine($"{"Id",3} {"Name", 15} {"Mail", 20}");
         foreach(var record in bPlus.Select()){
-            Console.WriteLine(Row.SerializeRow(record));
+            string[] values = Row.SerializeRow(record).Split(' ');
+            Console.WriteLine($"{values[0],3} {values[1], 15} {values[2], 20}");
         }
         return ExecuteResult.EXECUTE_SUCCESS;
     }
 
     public static ExecuteResult SelectRecords(int[] keys){
+        Console.WriteLine($"{"Id",3} {"Name", 15} {"Mail", 20}");
         foreach(var record in bPlus.Select(keys)){
-            Console.WriteLine(Row.SerializeRow(record));
+            string[] values = Row.SerializeRow(record).Split(' ');
+            Console.WriteLine($"{values[0],3} {values[1], 15} {values[2], 20}");
         }
         return ExecuteResult.EXECUTE_SUCCESS;
     }
@@ -62,6 +66,10 @@ public class Table{
             string output = Console.ReadLine();
             if(output.ToLower().Trim() == "no") return;
             currentFilename = output.Trim();
+        }else{
+            Console.WriteLine("Save Changes? (yes/no)");
+            string output = Console.ReadLine();
+            if(output.ToLower().Trim() == "no") return;
         }
         Pages.SaveFile(bPlus,currentFilename);
     }

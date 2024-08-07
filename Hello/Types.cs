@@ -26,6 +26,7 @@ public enum ExecuteResult{
     EXECUTE_SUCCESS,
     EXECUTE_ERROR,
     TABLE_FULL,
+    RECORD_EXIST,
     RECORD_NOT_FOUND
 }
 
