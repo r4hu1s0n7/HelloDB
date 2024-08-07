@@ -18,6 +18,7 @@ So Table format is fixed, only supporting in  ID <unique>, Name, Email feilds
 - select: `select <id1> <id2>...`
 - select all: `select`
 
+> Publish folder has ready compiled .exe for usage
 
 ## Project Structure
 
