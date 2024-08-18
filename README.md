@@ -18,10 +18,15 @@ So Table format is fixed, only supporting in  ID <unique>, Name, Email feilds
 - select: `select <id1> <id2>...`
 - select all: `select`
 
+> Publish folder has ready compiled .exe for usage
 
 ## Project Structure
 
 <img width="827" alt="lld" src="https://github.com/user-attachments/assets/70988039-4061-43c2-bc70-2aeae9810890">
+
+## Data Storage Format using B+Tree
+
+![image](https://github.com/user-attachments/assets/252aebd1-5662-402a-a0c4-79bd885ce9c1)
 
 
 ## Example Tutorial Here
