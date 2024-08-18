@@ -117,7 +117,9 @@ class BPlusTree{
         }
 
         while(LeftMostNode != null){
-            allRows.AddRange(LeftMostNode.ValuePairs.Values);
+            foreach(var Key in LeftMostNode.Keys){
+                allRows.Add(LeftMostNode.ValuePairs[Key]);
+            }
             LeftMostNode = LeftMostNode.Next;
         }
 
