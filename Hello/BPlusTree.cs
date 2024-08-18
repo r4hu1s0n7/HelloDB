@@ -155,7 +155,7 @@ class BPlusTree{
         while (!currentNode.IsLeaf)
         {
             int i = 0;
-            while (i < currentNode.Keys.Count && key >= currentNode.Keys[i])
+            while (i < currentNode.Keys.Count && key > currentNode.Keys[i])
             {
                 i++;
             }
@@ -167,7 +167,7 @@ class BPlusTree{
     private Node SplitLeafNode(Node leafNode)
     {
         Node newLeafNode = leafNode.Copy();
-        int mid = (leafNode.Keys.Count +1) / 2;
+        int mid = leafNode.Keys.Count  / 2;
 
         newLeafNode.Keys = leafNode.Keys.GetRange(mid, leafNode.Keys.Count - mid);
         leafNode.Keys.RemoveRange(mid, leafNode.Keys.Count - mid);
@@ -188,10 +188,10 @@ class BPlusTree{
     private Node SplitInternalNode(Node node)
     {
         Node newNode = node.Copy();
-        int mid = Depth / 2;
+        int mid = node.Keys.Count  / 2;
 
-        newNode.Keys = node.Keys.GetRange(mid + 1, node.Keys.Count - mid - 1);
-        node.Keys.RemoveRange(mid, node.Keys.Count - mid);
+        newNode.Keys = node.Keys.GetRange(mid +1, node.Keys.Count - mid - 1);
+        node.Keys.RemoveRange(mid + 1, node.Keys.Count - mid - 1);
 
         newNode.Children = node.Children.GetRange(mid + 1, node.Children.Count - mid - 1);
         node.Children.RemoveRange(mid + 1, node.Children.Count - mid - 1);
@@ -227,7 +227,7 @@ class BPlusTree{
         parent.Children.Insert(insertIndex, rightNode);
         rightNode.Parent = parent;
 
-        if (parent.Keys.Count == Depth)
+        if (parent.Keys.Count > Depth)
         {
             Node newParent = SplitInternalNode(parent);
             InsertInParent(parent, newParent.Keys[0], newParent); // rebalnce again if size increases by depht
