@@ -1,6 +1,8 @@
 
 # HelloDB
-Database build from scratch just for learning purpose. It has all the basic commands and it maintains a **B+ tree** index for records, So every operation is Log(n). It also saves data in csv format in file and we can resume database session.
+Database build from scratch just for learning purpose. It has all the basic commands and it maintains a **B+ tree** index for records, So every operation is Log(n). It also saves data in csv format in file and we can resume database session.  
+
+Check my posts on [Why do we need BTree and B+Tree?](https://rahul-soni.com/posts/why-do-we-need-btree-and-bplustree/) and [Implementating B+Tree](https://rahul-soni.com/posts/implementing-bplustree/)
 
 ## Usage
 #### Meta Commands
