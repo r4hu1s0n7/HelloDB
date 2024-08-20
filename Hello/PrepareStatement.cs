@@ -2,38 +2,42 @@ class PrepareStatement{
     public static PrepareStatementResult PrepareQueryStatement(string input, out QueryStatement queryStatement){
         input = input.Trim();
         queryStatement = new QueryStatement();
-        if(input.ToLower().Contains("insert") && input.Substring(0,6).ToLower() == "insert"){
-            queryStatement.queryType = QueryType.INSERT;
-            string[] inputValues = input.Split(' ');
+        try{
+            if(input.ToLower().Contains("insert") && input.Substring(0,6).ToLower() == "insert"){
+                queryStatement.queryType = QueryType.INSERT;
+                string[] inputValues = input.Split(' ');
 
-            if(inputValues.Count() != 4){ // validating default constraint
-                return PrepareStatementResult.SYNTAX_ERROR;
+                if(inputValues.Count() != 4){ // validating default constraint
+                    return PrepareStatementResult.SYNTAX_ERROR;
+                }
+                return ValidateInsertQueryConstraints(input);
+
+            }else if(input.ToLower().Contains("update") && input.Substring(0,6).ToLower() == "update"){
+                queryStatement.queryType = QueryType.UPDATE;
+                string[] inputValues = input.Split(' ');
+
+                if(inputValues.Count() != 4){ //  same like insert
+                    return PrepareStatementResult.SYNTAX_ERROR;
+                }
+                return ValidateInsertQueryConstraints(input); 
             }
-            return ValidateInsertQueryConstraints(input);
-
-        }else if(input.ToLower().Contains("update") && input.Substring(0,6).ToLower() == "update"){
-            queryStatement.queryType = QueryType.UPDATE;
-            string[] inputValues = input.Split(' ');
-
-            if(inputValues.Count() != 4){ //  same like insert
-                return PrepareStatementResult.SYNTAX_ERROR;
+            else if(input.ToLower().Contains("select")){
+                if(input.ToLower() == "select"){
+                    queryStatement.queryType = QueryType.SELECT_ALL;
+                    return PrepareStatementResult.SUCCESS;
+                }else{
+                    queryStatement.queryType = QueryType.SELECT_RECORDS;
+                    return PrepareStatementResult.SUCCESS;
+                }  
+            }else if(input.ToLower().Contains("delete") && input.Substring(0,6).ToLower() == "delete"){
+                queryStatement.queryType = QueryType.DELETE;
+                return ValidateDeleteQueryConstraints(input);
             }
-            return ValidateInsertQueryConstraints(input); 
+            return PrepareStatementResult.QUERY_UKNOWN;
         }
-        else if(input.ToLower().Contains("select")){
-            if(input.ToLower() == "select"){
-                queryStatement.queryType = QueryType.SELECT_ALL;
-                return PrepareStatementResult.SUCCESS;
-            }else{
-                queryStatement.queryType = QueryType.SELECT_RECORDS;
-                return PrepareStatementResult.SUCCESS;
-            }  
-        }else if(input.ToLower().Contains("delete") && input.Substring(0,6).ToLower() == "delete"){
-            queryStatement.queryType = QueryType.DELETE;
-            return ValidateDeleteQueryConstraints(input);
+        catch(Exception e){
+           return PrepareStatementResult.SYNTAX_ERROR;
         }
-        return PrepareStatementResult.QUERY_UKNOWN;
-        
     }
 
     public static PrepareStatementResult ValidateInsertQueryConstraints(string input){
