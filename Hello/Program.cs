@@ -2,11 +2,13 @@
 {
     private static void Main(string[] args)
     {
-        string input = null;
+        string? input = null;
         while(true)
         {
             Console.Write("command > ");
             input = Console.ReadLine();
+            if(input == null || input.Length == 0)
+                continue;
 
             if(string.IsNullOrEmpty(input)) continue;
 
