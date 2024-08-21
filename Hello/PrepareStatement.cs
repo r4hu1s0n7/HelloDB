@@ -3,7 +3,7 @@ class PrepareStatement{
         input = input.Trim();
         queryStatement = new QueryStatement();
         try{
-            if(input.ToLower().Contains("insert") && input.Substring(0,6).ToLower() == "insert"){
+            if(input.StartsWith("insert", StringComparison.OrdinalIgnoreCase)){
                 queryStatement.queryType = QueryType.INSERT;
                 string[] inputValues = input.Split(' ');
 
@@ -12,7 +12,7 @@ class PrepareStatement{
                 }
                 return ValidateInsertQueryConstraints(input);
 
-            }else if(input.ToLower().Contains("update") && input.Substring(0,6).ToLower() == "update"){
+            }else if(input.StartsWith("update", StringComparison.OrdinalIgnoreCase)){
                 queryStatement.queryType = QueryType.UPDATE;
                 string[] inputValues = input.Split(' ');
 
@@ -21,23 +21,22 @@ class PrepareStatement{
                 }
                 return ValidateInsertQueryConstraints(input); 
             }
-            else if(input.ToLower().Contains("select")){
-                if(input.ToLower().Trim() == "select"){
+            else if(input.StartsWith("select", StringComparison.OrdinalIgnoreCase)){
+                if(input.Equals("select", StringComparison.OrdinalIgnoreCase)){
                     queryStatement.queryType = QueryType.SELECT_ALL;
                     return PrepareStatementResult.SUCCESS;
-                }else if(input.Substring(0,6).ToLower() == "select"){
-                    queryStatement.queryType = QueryType.SELECT_RECORDS;
-                    return PrepareStatementResult.SUCCESS;
                 }else{
-                    return PrepareStatementResult.QUERY_UKNOWN;
-                }  
-            }else if(input.ToLower().Contains("delete") && input.Substring(0,6).ToLower() == "delete"){
+                    queryStatement.queryType = QueryType.SELECT_RECORDS;
+                    return ValidateSelectQueryConstraints(input);
+                }
+            }else if(input.StartsWith("delete", StringComparison.OrdinalIgnoreCase)){
                 queryStatement.queryType = QueryType.DELETE;
                 return ValidateDeleteQueryConstraints(input);
             }
             return PrepareStatementResult.QUERY_UKNOWN;
         }
-        catch(Exception e){
+        catch (Exception)
+        {
            return PrepareStatementResult.SYNTAX_ERROR;
         }
     }
@@ -62,7 +61,7 @@ class PrepareStatement{
             for(int i = 1; i < param.Count(); i++ ){
                 Convert.ToInt32(param[i].Trim());
             }
-        }catch(Exception e){
+        }catch(Exception){
             return PrepareStatementResult.SYNTAX_ERROR;
         }
         return PrepareStatementResult.SUCCESS;
