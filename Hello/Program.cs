@@ -8,6 +8,8 @@
             Console.Write("command > ");
             input = Console.ReadLine();
 
+            if(string.IsNullOrEmpty(input)) continue;
+
             if(input[0] == '.'){ // meta commands will be followed by '.'
                 MetaCommandResult result = MetaCommand.ProcessMetaCommand(input);
                 switch(result){

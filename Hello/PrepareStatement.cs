@@ -22,12 +22,14 @@ class PrepareStatement{
                 return ValidateInsertQueryConstraints(input); 
             }
             else if(input.ToLower().Contains("select")){
-                if(input.ToLower() == "select"){
+                if(input.ToLower().Trim() == "select"){
                     queryStatement.queryType = QueryType.SELECT_ALL;
                     return PrepareStatementResult.SUCCESS;
-                }else{
+                }else if(input.Substring(0,6).ToLower() == "select"){
                     queryStatement.queryType = QueryType.SELECT_RECORDS;
                     return PrepareStatementResult.SUCCESS;
+                }else{
+                    return PrepareStatementResult.QUERY_UKNOWN;
                 }  
             }else if(input.ToLower().Contains("delete") && input.Substring(0,6).ToLower() == "delete"){
                 queryStatement.queryType = QueryType.DELETE;
@@ -54,5 +56,16 @@ class PrepareStatement{
         return PrepareStatementResult.SUCCESS;
     }
 
-
+    public static PrepareStatementResult ValidateSelectQueryConstraints(string input){
+        string[] param = input.Split(' ');
+        try{
+            for(int i = 1; i < param.Count(); i++ ){
+                Convert.ToInt32(param[i].Trim());
+            }
+        }catch(Exception e){
+            return PrepareStatementResult.SYNTAX_ERROR;
+        }
+        return PrepareStatementResult.SUCCESS;
+    }
 }
+
